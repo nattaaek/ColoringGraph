@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  </head>
+  <body>
+    <a name="start" id="start" class="btn btn-primary" href="#" role="button" onclick="start()">Start application</a>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+    <form id="main">
+        <div id="btnsubmit">
+
+        </div>
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script>
+        var cnt_team;
+        var name_team = [];
+        function start() {
+            cnt_team = prompt('Please enter how many team in there')
+            var input = "";
+            for(var i = 1; i <= cnt_team ; i++){
+                if(i == cnt_team){
+                    input += '<div class="form-group">' +
+                    '<label for="">ชื่อทีม</label>' +
+                    '<input type="text" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">' +
+                    '<small id="helpId" class="form-text text-muted">กรุณากรอกชื่อทีมที่' + i + '</small>' +
+                    '</div>' +
+                    '<a name="" id="" class="btn btn-primary" href="#" role="button" onclick="coloringGraph()">ยืนยันทีม</a>'       
+                }
+                else{
+                    input += '<div class="form-group">' +
+                    '<label for="">ชื่อทีม</label>' +
+                    '<input type="text" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">' +
+                    '<small id="helpId" class="form-text text-muted">กรุณากรอกชื่อทีมที่' + i + '</small>' +
+                    '</div>'
+                }
+            }
+            document.getElementById('main').innerHTML = input
+        }
+
+        function coloringGraph() {
+
+            var elements = document.getElementById('main').elements;
+
+             for(var i = 0, element ; element = elements[i++]; ){
+                if(element.type === "text" && element.value !== ""){
+                    name_team.push(element.value)
+                }
+             }
+             
+
+            var arr = Create2DArray(cnt_team)
+            var flag = Create2DArray(cnt_team)
+            var week = CreateArray(cnt_team)
+            
+            for(var i = 0 ; i < cnt_team ; i ++){
+                for(var j = 0 ; j < cnt_team ; j++) {
+                    if(arr[i][j] == arr[j][i] && i != j && flag[i][j] != 0){
+                        
+                        putToWeek(i,j)
+                        
+                        flag[i][j] = 0;
+                        flag[j][i] = 0;
+                    }
+                }
+            }
+
+            console.log(arrVS)
+            console.log(arrweek)
+            Print();
+        }
+        var arrVS = []
+        var arrweek = []
+        var index = 0;
+
+        function Print(params) {
+            var j = 0;
+            for(var i = 0 ; i < arrVS.length ; i+=2){
+                console.log("Week : " + arrweek[j] + " Team " + name_team[arrVS[i]] + " VS " + " Team " +name_team[arrVS[i+1]])
+                j++;
+            }
+        }
+
+
+        function putToWeek(a, b){
+            index = 0;
+            var week = 1;
+            if(arrVS.length == 0){
+                arrVS.push(a)
+               
+                arrVS.push(b)
+              
+                arrweek.push(week)
+              
+            }
+            else
+            {
+                for(var i = 0 ; i < arrVS.length ; i++ ){
+                    if(arrVS[i] == a || arrVS[i] == b){
+                        week++
+ 
+                    }
+                    if(i % 2 != 0){
+                        index++
+                    }
+                }
+                arrVS.push(a)
+         
+                arrVS.push(b)
+          
+                arrweek.push(week)
+          
+            }
+        }
+
+        function Create2DArray(rows) {
+            var arr = []
+
+            for (var i = 0; i < rows; i++) {
+                arr[i] = []
+            }
+
+            for (var i = 0 ; i < rows ; i ++){
+                for(var j = 0 ; j < rows ; j ++){
+                    if(i == j){
+                        arr[i][j] = 0
+                    }
+                    else {
+                        arr[i][j] = 1
+                    }
+                    
+                }
+            }
+
+            return arr
+        }
+
+        function CreateArray(rows){
+            var arr = []
+
+            for (var i = 0; i < rows; i++) {
+                arr[i] = []
+            }
+
+
+          for (var i = 0 ; i < rows ; i ++){
+                for(var j = 0 ; j < rows ; j ++){
+                        arr[i][j] = 0
+                }
+            }
+            return arr
+        }
+
+    </script>
+</body>
+</html>
